@@ -1,0 +1,18 @@
+services:
+  restaurant-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: elbahia-restaurant
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      # Persist orders and table data between container restarts
+      - restaurant-data:/app/data
+
+volumes:
+  restaurant-data:

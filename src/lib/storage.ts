@@ -3,13 +3,13 @@ import path from "path";
 import { MenuItem, Order, OrderStatus, RestaurantStats, WaiterCall, WaiterCallReason } from "@/types";
 import { INITIAL_MENU_ITEMS } from "./menu-data";
 
-const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), "data");
-const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
-const WAITER_CALLS_FILE = path.join(DATA_DIR, "waiter_calls.json");
-const MENU_OVERRIDES_FILE = path.join(DATA_DIR, "menu_overrides.json");
+const DATA_DIR = path.join(process.cwd(), "data");
+const ORDERS_FILE = path.join(process.cwd(), "data", "orders.json");
+const WAITER_CALLS_FILE = path.join(process.cwd(), "data", "waiter_calls.json");
+const MENU_OVERRIDES_FILE = path.join(process.cwd(), "data", "menu_overrides.json");
 
 function ensureDirectoryExists() {
-  if (!fs.existsSync(DATA_DIR)) {
+  if (!fs.existsSync(/*turbopackIgnore: true*/ DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
 }
@@ -17,7 +17,7 @@ function ensureDirectoryExists() {
 function safeReadJSON<T>(filePath: string, fallback: T): T {
   try {
     ensureDirectoryExists();
-    if (!fs.existsSync(filePath)) {
+    if (!fs.existsSync(/*turbopackIgnore: true*/ filePath)) {
       return fallback;
     }
     const raw = fs.readFileSync(filePath, "utf-8");
